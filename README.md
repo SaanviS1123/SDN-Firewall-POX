@@ -26,10 +26,10 @@ sudo mn --topo single,3 --controller remote
 
 ## Proof of Execution
 
-### 1. Blocked Traffic
+### 1. Blocked Traffic (h1 → h2)
 Command:
-h1 ping h2  
-Result: Packet loss (communication blocked)
+h1 ping h2
+![Blocked](Blocked.png)
 
 ### 2. Allowed Traffic
 Command:
