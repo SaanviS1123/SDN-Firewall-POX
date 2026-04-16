@@ -1,61 +1,38 @@
-# SDN-Based Firewall using POX
-
-## Problem Statement
-Design and implement an SDN-based firewall using a controller (POX) and Mininet. The firewall should allow or block traffic between hosts based on predefined rules using OpenFlow.
-
----
-
-## Setup / Execution Steps
-
-### Step 1: Start POX Controller
-cd pox  
-./pox.py firewall  
-
-### Step 2: Start Mininet (new terminal)
-sudo mn --topo single,3 --controller remote  
-
----
-
-## Expected Output
-
-- h1 ping h2 → Blocked  
-- h1 ping h3 → Allowed  
-- h2 ping h3 → Blocked  
-
----
-
 ## Proof of Execution
 
 ### 1. Blocked Traffic (h1 → h2)
 Command:
-h1 ping h2
+h1 ping -c 3 h2  
+Result: 100% packet loss  
 ![Blocked](Blocked.png)
-
-### 2. Allowed Traffic
-Command:
-h1 ping h3  
-Result: Successful ping
-
-### 3. Additional Rule
-Command:
-h2 ping h3  
-Result: Packet blocked
-
-### 4. Controller Logs
-Shows:
-- BLOCKED: 10.0.0.1 → 10.0.0.2  
-- ALLOWED traffic logs  
-
-### 5. Flow Table
-
-Command:
-sudo ovs-ofctl dump-flows s1  
-
-Output shows flow rules installed in switch.
 
 ---
 
-## Tools Used
-- Mininet  
-- POX Controller  
-- OpenFlow  
+### 2. Allowed Traffic (h1 → h3)
+Command:
+h1 ping -c 3 h3  
+Result: Successful communication  
+![Allowed](Allowed.png)
+
+---
+
+### 3. Additional Rule (h2 → h3)
+Command:
+h2 ping -c 3 h3  
+Result: Blocked / Allowed based on rule  
+![Rule2](Rule2.png)
+
+---
+
+### 4. Controller Logs
+Shows:
+- BLOCKED traffic  
+- ALLOWED traffic  
+![Logs](Logs.png)
+
+---
+
+### 5. Switch Details (OpenFlow)
+Command:
+sh ovs-ofctl show s1  
+![Flows](Flows.png)
